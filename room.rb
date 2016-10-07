@@ -20,13 +20,16 @@ class Room
   end
 
   def check_out_guest(name)
-    for guest in @guestlist
-      if guest.name == name
-        @guestlist.delete(guest)
-      end
-    end
+    @guestlist.delete_if { |guest| guest.name == name }
   end
-  # do this with a block? 
-  # { [name] name == @guestlist.name }
+
+  # This for loop does the same thing:
+  # def check_out_guest(name)
+  #   for guest in @guestlist
+  #     if guest.name == name
+  #       @guestlist.delete(guest)
+  #     end
+  #   end
+  # end
 
 end
