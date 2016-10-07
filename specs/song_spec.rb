@@ -5,7 +5,7 @@ require_relative( '../song' )
 class SongTest < MiniTest::Test
 
   def setup
-    @song = Song.new("A Whiter Shade of Pale", "Procol Harum")
+    @song = Song.new(title: "A Whiter Shade of Pale", artist: "Procol Harum")
   end
 
   def test_song_has_title
