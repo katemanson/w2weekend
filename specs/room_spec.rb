@@ -13,11 +13,11 @@ class RoomTest < MiniTest::Test
   end
 
   def test_room_initially_has_empty_playlist
-    assert_equal([], @room.playlist)
+    assert_equal(0, @room.playlist.length)
   end
 
   def test_room_is_initially_empty
-    assert_equal([], @room.guestlist)
+    assert_equal(0, @room.guestlist.length)
   end
 
   def test_add_song_to_playlist
@@ -35,9 +35,10 @@ class RoomTest < MiniTest::Test
 
   def test_guest_is_checked_out
     @room.check_in_guest("Dirk McGangle")
+    @room.check_in_guest("Hairy Maclary")
     @room.check_out_guest("Dirk McGangle")
-    assert_equal(nil, @room.guestlist.length)
-    assert_equal(nil, @room.guestlist[-1].name)
+    assert_equal(1, @room.guestlist.length)
+    assert_equal("Hairy Maclary", @room.guestlist[-1].name)
   end
 
 end

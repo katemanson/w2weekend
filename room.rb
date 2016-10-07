@@ -19,8 +19,14 @@ class Room
     @guestlist << Guest.new(name)
   end
 
-  # def check_out_guest(name)
-  #   @guestlist.name
-  # end
+  def check_out_guest(name)
+    for guest in @guestlist
+      if guest.name == name
+        @guestlist.delete(guest)
+      end
+    end
+  end
+  # do this with a block? 
+  # { [name] name == @guestlist.name }
 
 end
