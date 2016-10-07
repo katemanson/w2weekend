@@ -24,11 +24,20 @@ class RoomTest < MiniTest::Test
     assert_equal(0, @room.guestlist.length)
   end
 
-  def test_add_song_to_playlist
+  def test_room_initially_has_zero_money_from_entry_fees
+    assert_equal(0, @room.entry_fees)
+  end
+
+  # ?DRY?
+  def test_add_songs_to_playlist
     @room.add_song("A Whiter Shade of Pale", "Procol Harum")
     assert_equal(1, @room.playlist.length)
     assert_equal("A Whiter Shade of Pale", @room.playlist[-1].title)
     assert_equal("Procol Harum", @room.playlist[-1].artist)
+    @room.add_song("Itchycoo Park", "Small Faces")
+    assert_equal(2, @room.playlist.length)
+    assert_equal("Itchycoo Park", @room.playlist[-1].title)
+    assert_equal("Small Faces", @room.playlist[-1].artist)
   end
 
   def test_guest_is_checked_in_and_has_paid_entry_fee
@@ -36,6 +45,7 @@ class RoomTest < MiniTest::Test
     assert_equal(1, @room.guestlist.length)
     assert_equal("Dirk", @room.guestlist[-1].name)
     assert_equal(40, @room.guestlist[-1].money)
+    assert_equal(10, @room.entry_fees)
   end
 
   def test_guest_is_checked_out
@@ -60,8 +70,15 @@ class RoomTest < MiniTest::Test
     assert_equal(10, Room.entry_fee)
   end
 
-  def test_guest_cannot_check_in_without_enough_money_for_entry
+  def test_guest_cannot_check_in_without_entry_fee
     assert_equal("Sorry, no entry!", @room.check_in_guest("Joe", 8))
+  end
+
+  def test_keep_track_of_entry_fees
+    3.times do
+      @room.check_in_guest("Dummy Guest", 10)
+    end
+    assert_equal(30, @room.entry_fees)
   end
 
 end

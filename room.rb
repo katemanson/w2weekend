@@ -3,7 +3,7 @@ require_relative( './guest' )
 
 class Room
 
-  attr_reader :name, :capacity, :playlist, :guestlist
+  attr_reader :name, :capacity, :playlist, :guestlist, :entry_fees
 
   @@entry_fee = 10
 
@@ -12,6 +12,7 @@ class Room
     @capacity = capacity
     @playlist = []
     @guestlist = []
+    @entry_fees = 0
   end
 
   def add_song(title, artist)
@@ -22,6 +23,7 @@ class Room
     if @capacity > @guestlist.length && money >= @@entry_fee
       @guestlist << Guest.new(name: name, money: money)
       @guestlist[-1].money -= @@entry_fee
+      @entry_fees += @@entry_fee
     else
       return "Sorry, no entry!"
     end
