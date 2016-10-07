@@ -3,10 +3,13 @@ require_relative( './guest' )
 
 class Room
 
-  attr_reader :name, :playlist, :guestlist
+  attr_reader :name, :capacity, :playlist, :guestlist
 
-  def initialize(name)
+  @@entry_fee = 10
+
+  def initialize(name, capacity)
     @name = name
+    @capacity = capacity
     @playlist = []
     @guestlist = []
   end
@@ -15,14 +18,17 @@ class Room
     @playlist << Song.new(title: title, artist: artist)
   end
 
-  def check_in_guest(name)
-    @guestlist << Guest.new(name)
+  def check_in_guest(name, money)
+    if @capacity > @guestlist.length && money >= @@entry_fee
+      @guestlist << Guest.new(name: name, money: money)
+    else
+      return "Sorry, no entry!"
+    end
   end
 
   def check_out_guest(name)
     @guestlist.delete_if { |guest| guest.name == name }
   end
-
   # This for loop does the same thing:
   # def check_out_guest(name)
   #   for guest in @guestlist
@@ -31,5 +37,9 @@ class Room
   #     end
   #   end
   # end
+
+  def self.entry_fee
+    return @@entry_fee
+  end
 
 end

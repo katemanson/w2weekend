@@ -1,9 +1,10 @@
 class Guest
 
-attr_reader :name
+attr_reader :name, :money
 
-  def initialize(name)
-    @name = name
+  def initialize(params)
+    @name = params[:name]
+    @money = params[:money]
   end
 
 end
