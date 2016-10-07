@@ -21,6 +21,7 @@ class Room
   def check_in_guest(name, money)
     if @capacity > @guestlist.length && money >= @@entry_fee
       @guestlist << Guest.new(name: name, money: money)
+      @guestlist[-1].money -= @@entry_fee
     else
       return "Sorry, no entry!"
     end

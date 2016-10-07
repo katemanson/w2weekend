@@ -31,28 +31,28 @@ class RoomTest < MiniTest::Test
     assert_equal("Procol Harum", @room.playlist[-1].artist)
   end
 
-  def test_guest_is_checked_in
-    @room.check_in_guest("Dirk McGangle", 50)
+  def test_guest_is_checked_in_and_has_paid_entry_fee
+    @room.check_in_guest("Dirk", 50)
     assert_equal(1, @room.guestlist.length)
-    assert_equal("Dirk McGangle", @room.guestlist[-1].name)
-    assert_equal(50, @room.guestlist[-1].money)
+    assert_equal("Dirk", @room.guestlist[-1].name)
+    assert_equal(40, @room.guestlist[-1].money)
   end
 
   def test_guest_is_checked_out
-    @room.check_in_guest("Dirk McGangle", 50)
-    @room.check_in_guest("Hairy Maclary", 20)
+    @room.check_in_guest("Dirk", 50)
+    @room.check_in_guest("Trevor", 20)
     assert_equal(2, @room.guestlist.length)
-    @room.check_out_guest("Dirk McGangle")
+    @room.check_out_guest("Dirk")
     assert_equal(1, @room.guestlist.length)
-    assert_equal("Hairy Maclary", @room.guestlist[-1].name)
+    assert_equal("Trevor", @room.guestlist[-1].name)
   end
 
   # ?test okay?
   def test_twelve_guests_can_check_in_but_not_thirteenth
     12.times do
-      @room.check_in_guest("Guest", 10)
+      @room.check_in_guest("Dummy Guest", 10)
     end
-    assert_equal("Sorry, no entry!", @room.check_in_guest("Late Guest", 10))
+    assert_equal("Sorry, no entry!", @room.check_in_guest("Petronella", 10))
     assert_equal(12, @room.guestlist.length)
   end
 
@@ -60,7 +60,7 @@ class RoomTest < MiniTest::Test
     assert_equal(10, Room.entry_fee)
   end
 
-  def guest_cannot_check_in_without_enough_money_for_entry
+  def test_guest_cannot_check_in_without_enough_money_for_entry
     assert_equal("Sorry, no entry!", @room.check_in_guest("Joe", 8))
   end
 
