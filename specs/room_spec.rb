@@ -1,6 +1,7 @@
 require( 'minitest/autorun' )
 require( 'minitest/rg' )
 require_relative( '../room' )
+require_relative( '../bar' )
 
 class RoomTest < MiniTest::Test
 
@@ -63,7 +64,7 @@ class RoomTest < MiniTest::Test
     12.times do
       @room.check_in_guest("Dummy Guest", 10, "Dummy Song")
     end
-    assert_equal("Sorry, no entry!", @room.check_in_guest("Petronella", 10, "Fever"))
+    assert_equal("Sorry, no entry!", @room.check_in_guest("Peggy", 10, "Fever"))
     assert_equal(12, @room.guestlist.length)
   end
 
@@ -72,7 +73,7 @@ class RoomTest < MiniTest::Test
   end
 
   def test_guest_cannot_check_in_without_entry_fee
-    assert_equal("Sorry, no entry!", @room.check_in_guest("Joe", 8, "Loser"))
+    assert_equal("Sorry, no entry!", @room.check_in_guest("Beck", 8, "Loser"))
   end
 
   def test_keep_track_of_entry_fees
@@ -85,6 +86,14 @@ class RoomTest < MiniTest::Test
   def test_favourite_song_on_playlist
     @room.add_song("Boris the Spider", "The Who")
     assert_equal("Woohoo!", @room.check_in_guest("Dirk", 50, "Boris the Spider"))
+  end
+
+  def test_bar_sale()
+    @room.bar_sale("Buckfast")
+    assert_equal(1.20, @room.bar_takings)
+    assert_equal(99, @drink.stock)
+    assert_equal(1, @drink.sales)
+
   end
 
 end

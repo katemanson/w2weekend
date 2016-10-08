@@ -3,7 +3,7 @@ require_relative( './guest' )
 
 class Room
 
-  attr_reader :name, :capacity, :playlist, :guestlist, :total_entry_fees
+  attr_reader :name, :capacity, :playlist, :guestlist, :total_entry_fees, :bar_takings
 
   @@entry_fee = 10
 
@@ -13,6 +13,7 @@ class Room
     @playlist = []
     @guestlist = []
     @total_entry_fees = 0
+    @bar_takings = 0
   end
 
   def add_song(title, artist)
@@ -62,5 +63,8 @@ class Room
   def self.entry_fee
     return @@entry_fee
   end
+
+  def bar_sale(drink_name)
+
 
 end
