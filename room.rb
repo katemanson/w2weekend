@@ -1,9 +1,8 @@
-require_relative( './song' )
-require_relative( './guest' )
+require_relative( 'bar' )
 
 class Room
 
-  attr_reader :name, :capacity, :playlist, :guestlist, :total_entry_fees, :bar_takings
+  attr_reader :name, :capacity, :playlist, :guestlist, :total_entry_fees, :bar
 
   @@entry_fee = 10
 
@@ -13,7 +12,7 @@ class Room
     @playlist = []
     @guestlist = []
     @total_entry_fees = 0
-    @bar_takings = 0
+    @bar = Bar.new()
   end
 
   def add_song(title, artist)
@@ -30,12 +29,12 @@ class Room
     end
   end
 
-  def pay_entry_fee
+  def pay_entry_fee()
     @guestlist[-1].money -= @@entry_fee
     @total_entry_fees += @@entry_fee
   end
 
-  def favourite_song_on_playlist
+  def favourite_song_on_playlist()
     favourite = @guestlist[-1].favourite_song
     if @playlist.each { |song| song.title == favourite }
       return "Woohoo!"
@@ -60,11 +59,12 @@ class Room
   #   end
   # end
 
-  def self.entry_fee
+  def self.entry_fee()
     return @@entry_fee
   end
 
-  def bar_sale(drink_name)
-
+  def total_takings()
+    total_takings = @total_entry_fees + @bar.takings
+  end
 
 end
